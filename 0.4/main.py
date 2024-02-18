@@ -1,16 +1,15 @@
 from tkinter import ttk
 import matplotlib.pyplot as plt
 from tkinter import *
+import psycopg2
+from psycopg2 import Error
 
 root = Tk()
 root.title("Учеба/Заполнение")
 root.geometry("640x400")
 root.configure(bg='#84FF00')
-root.iconbitmap(default="cara.ico")
-
-
-
-# root.resizable(False, False)
+root.iconbitmap(r"D:\pythonden4\test\0.4\cara.ico")
+root.resizable(False, False)
 
 
 def quality(col):
@@ -21,9 +20,14 @@ def quality(col):
         num4 = int(entry4.get())
         num5 = int(entry5.get())
         num6 = int(entry6.get())
+
+
+
+
     except ValueError:
+        print("Ошибка при работе с PostgreSQL", error)
         root.title("Введите числа")
-        root.iconbitmap(default="Krest.ico")
+        root.iconbitmap(r"D:\pythonden4\test\0.4\Krest.ico")
         root.configure(bg='#C70000')
     else:
         dig = 1
@@ -41,6 +45,18 @@ def quality(col):
         fil = f"{dig + it} {qut_u} {sr_b} {kach_u} {pr_usp}"
         for person in rum:
             tree.insert("", END, values=person)
+        # connection = psycopg2.connect(user="postgres",
+        #                               # пароль, который указали при установке PostgreSQL
+        #                               password="123",
+        #                               host="127.0.0.1",
+        #                               port="5432",
+        #                               database="fastest")
+        # cursor = connection.cursor()
+        # insert_query = f""" INSERT INTO tesst (ProductName, Price, Manufacturer) VALUES
+        #                                                   ({summ}, '{sr}', {kach})
+        #                                                   """
+        # cursor.execute(insert_query)
+        # connection.commit()
         text = open('test.txt', 'r')
         a = []
         for line in text:
@@ -56,7 +72,7 @@ def quality(col):
         text.close()
 
         root.title("Учеба/Заполнение")
-        root.iconbitmap(default="cara.ico")
+        root.iconbitmap(r"D:\pythonden4\test\0.4\cara.ico")
         root.configure(bg='#84FF00')
 def sort(col, reverse):
     def takSecond(elem):
@@ -206,11 +222,45 @@ scrollbar = ttk.Scrollbar(orient=VERTICAL, command=tree.yview)
 tree.configure(yscroll=scrollbar.set)
 scrollbar.place(x=640, y=100, width=20, height=300)
 
+# op = open(r'D:\pythonden4\test\0.4\test.txt', 'w')
+# op.close()
+
 text = open('test.txt', 'r')
 a = []
 for line in text:
     a.append(line)
 text.close()
+print(a)
+
+
+# try:
+#     # Подключиться к существующей базе данных
+#     connection = psycopg2.connect(user="postgres",
+#                                   # пароль, который указали при установке PostgreSQL
+#                                   password="123",
+#                                   host="127.0.0.1",
+#                                   port="5432",
+#                                   database="fastest")
+#
+#     cursor = connection.cursor()
+#     postgreSQL_select_Query = "select * from tesst"
+#
+#     cursor.execute(postgreSQL_select_Query)
+#     print("Выбор строк из таблицы mobile с помощью cursor.fetchall")
+#     mobile_records = cursor.fetchall()
+#
+#     print("Вывод каждой строки и ее столбцов")
+#     print(mobile_records)
+#     for row in mobile_records:
+#         tree.insert("", END, values=row)
+#
+# except (Exception, Error) as error:
+#     print("Ошибка при работе с PostgreSQL", error)
+# finally:
+#     if connection:
+#         cursor.close()
+#         connection.close()
+#         print("Соединение с PostgreSQL закрыто")
 for person in a:
     tree.insert("", END, values=person)
 
